@@ -1,9 +1,25 @@
-.PHONY: all clean
+.PHONY: all clean $(MAKES)
 CC = gcc
-CFLAGS = -std=c11 -pedantic -D_XOPEN_SOURCE=700 -Wall -Werror
+CFLAGS = -std=c11 -pedantic -D_XOPEN_SOURCE=700 -Wall -Werror 
+MAKES = files
+FILES := textEditor.o  
 
-all:
-	$(CC) $(CFLAGS) textEdior.c -o main
+include files/Makefile
+
+all: textEditor 
+
+makeing: $(MAKES)
+	@echo test
+	$(MAKE) -C $(MAKES)
+
+textEditor: $(FILES)
+	@echo $(FILES)
+	$(CC) $(CFLAGS) $(FILES) -o textEditor
+
+textEditor.o: textEditor.c files/file.h
+	$(CC) $(CFLAGS) textEditor.c -c textEditor.o
 
 clean:
-	rm -r *.o
+	@echo "clean"
+	@rm -r *.o
+	@rm textEditor
